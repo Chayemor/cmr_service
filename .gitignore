@@ -181,3 +181,5 @@ Vagrantfile
 
 ##GIT
 .git_config
+/media/**
+!media/**/None
