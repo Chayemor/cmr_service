@@ -35,6 +35,13 @@ class UserSerializer(serializers.ModelSerializer):
             return super().to_internal_value(new_data)
         return super().to_internal_value(data)
 
+
+class UserUsernameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "username")
+
+
 class TokenSerializer(serializers.Serializer):
     """
     Serialize token

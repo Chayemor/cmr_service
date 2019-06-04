@@ -1,8 +1,6 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, get_user_model
-from django.contrib.auth.decorators import user_passes_test
 from rest_framework import generics, status, viewsets
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 
@@ -28,6 +26,9 @@ class LoginView(generics.CreateAPIView):
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         user = authenticate(request, username=username, password=password)
+        if username == "User0":
+            print("\n\n HERE *****")
+            print(user)
         if user is not None:
             # Django’s session framework saves the user’s ID in the session, on login
             login(request, user)
