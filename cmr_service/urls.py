@@ -13,13 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.staticfiles.urls import static
+from django.conf import settings
 from django.urls import path, include, re_path
+
 from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Customer Service API')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-token-auth/', obtain_jwt_token, name='create-token'),
-    re_path('api/(?P<version>(v1|v2))/', include('users.urls')),
-    re_path('api/(?P<version>(v1|v2))/', include('customers.urls')),
+    re_path(r'accounts/login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    re_path(r'accounts/logout/$', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
+    re_path('api-token-auth/?', obtain_jwt_token, name='create-token'),
+    re_path('api/v1/docs/$', schema_view),
+    re_path('api/v1/', include('users.urls')),
+    re_path('api/v1/', include('customers.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

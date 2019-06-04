@@ -1,13 +1,29 @@
-from django.contrib.auth import get_user_model
 from rest_framework import status, viewsets
-from rest_framework.response import Response
-from rest_framework_jwt.settings import api_settings
 
 from .serializer import CustomerSerializer
 from .models import Customer
 
-class CustomersViewSet(viewsets.ModelViewSet):
 
+class CustomersViewSet(viewsets.ModelViewSet):
+    """
+        retrieve:
+        Return the given customer, filter by id.
+
+        list:
+        Return a list of all the existing customers.
+
+        create:
+        Create a new customer.
+
+        update:
+        Updates given customer, all required information must be passed in update.
+
+        partial_update:
+        Update any information of the given customer.
+
+        destroy:
+        Delete the given customer
+    """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 

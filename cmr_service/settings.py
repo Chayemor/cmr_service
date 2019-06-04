@@ -21,14 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#  todo load secret key from env
-
-SECRET_KEY = 'lau3f02^nz7kqal7(2%li^h9(wt@3(2_*!t#1+5y@^zm8d-tc_'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('APP_ENV') == 'dev'
 
-ALLOWED_HOSTS = []
+# TODO here would go the proper domain in PRODUCTION
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'customers.apps.CustomersConfig',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
@@ -55,12 +55,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEBUG:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+
 ROOT_URLCONF = 'cmr_service.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,6 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/api/v1/docs/'
+LOGOUT_REDIRECT_URL = 'login'
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -128,6 +140,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
 
 # Custom User model
 AUTH_USER_MODEL = 'users.User'
@@ -137,7 +153,7 @@ REST_FRAMEWORK = {
     # request.version attribute will now contain version request as string
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # todo add SessionAuthentication
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
