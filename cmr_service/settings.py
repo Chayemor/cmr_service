@@ -26,9 +26,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lau3f02^nz7kqal7(2%li^h9(wt@3(2_*!t#1+5y@^zm8d-tc_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('APP_ENV') == 'dev'
 
-ALLOWED_HOSTS = []
+# TODO here would go the proper domain in PRODUCTION
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

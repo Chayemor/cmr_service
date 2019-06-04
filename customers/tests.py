@@ -9,10 +9,11 @@ import tempfile
 
 from users.tests.BaseViewTest import BaseViewTest
 
+
 class CustomersTest(BaseViewTest):
     @staticmethod
     def get_customers_api():
-        return reverse("customers-list", kwargs={"version": "v1"})
+        return reverse("customers-list")
 
     @staticmethod
     def get_image(prefix, suffix):
@@ -153,7 +154,7 @@ class CustomersTest(BaseViewTest):
 
         # Delete one of the users
         self.login_super_user()
-        url = reverse(f"users-list", kwargs={"version": "v1"})
+        url = reverse(f"users-list")
         url = f"{url}/{self.users_ids['User0']}"
         response = self.client.delete(url, content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

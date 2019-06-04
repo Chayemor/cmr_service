@@ -50,7 +50,7 @@ class BaseViewTest(APITestCase):
         # test users
         for i in range(0, BaseViewTest.users_limit):
             response = self.client.post(
-                reverse("users-list", kwargs={"version": "v1"}),
+                reverse("users-list"),
                 data=json.dumps(
                     {
                         "username": f"User{i}",

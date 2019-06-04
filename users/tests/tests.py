@@ -13,7 +13,7 @@ from .BaseViewTest import BaseViewTest
 class UsersTest(BaseViewTest):
     @staticmethod
     def get_users_api():
-        return reverse(f"users-list", kwargs={"version": "v1"})
+        return reverse(f"users-list")
 
     def test_admin_access(self):
         url = UsersTest.get_users_api()
