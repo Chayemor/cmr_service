@@ -65,8 +65,9 @@ You should remember the values you place for these since this is your admin user
 user that will be created in the DB once you run the project for the first time. It's your access to create new
 Users and set their status to admin. 
 
-Also, if you feel like playing with the code, it's best then to set the .env varible
-**APP_ENV** to "dev" (without double quotes).
+Also, if you feel like playing with the code, it's best then to set the .env variable
+**APP_ENV** to "dev" (without double quotes). By default, .env_template has that value set to dev, there
+if an error occurs, you will get more information about it. You can just as easily set it to prod. 
 
 Run
 -----------------
