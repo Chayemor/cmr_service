@@ -6,8 +6,6 @@ from ..serializer import UserSerializer
 from .BaseViewTest import BaseViewTest
 
 
-# python manage.py test users.tests.AuthRegisterUserTest.test_register_user_with_valid_data
-
 class UsersTest(BaseViewTest):
     @staticmethod
     def get_users_api():

@@ -58,7 +58,7 @@ cp .env_template .env
 
 The variable names are self explanatory to their function. I will only mention these ones:
 
-**DJANGO_SU_EMAIL**
+**DJANGO_SU_NAME**
 **DJANGO_SU_PASSWORD**
 
 You should remember the values you place for these since this is your admin user. It is the only
@@ -77,10 +77,49 @@ docker-compose run
 
 That's it. The API should now be available at **localhost:8000/api/v1/docs**
 
+When you open the browser and go to that route you will see the public API available. Which is the endpoint to
+get your JWT token, for token based authentication. The documentation won't show any API endpoints that
+you don't have access to. You can play with the API through the documentation on the browser, but you have to first
+log in with what value is in your .env file for DJANGO_SU_NAME and DJANGO_SU_PASSWORD. You can see the login button
+at the top right navigation bar of the documentation. Once logged in, you will have access to the API and you will be
+able to create both Users and Customers because your DJANGO_SU_NAME user is an admin. 
+You can try creating a user without admin privileges, login out, and then log back in with
+the created user's credential. You'll see then that the documentation should only how the API endponts for
+customer CRUD operations.
+
 Running Tests
 ============================
 
 To run tests you must be inside the running container labeled **cmr_service**. 
+To log into the docker container take a look at **Common Docker commands --> Log into a docker container**.
+
+To run this command you must be at the same level as **manage.py**, which is the path that you sign into
+when you log into the container.
+
+```bash
+python run test the_app_name.tests
+```
+
+```bash
+python run test users.tests
+```
+
+You should look for the following output:
+
+```bash
+root@115f46c7f03e:/django-docker# python manage.py test users.tests
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+......
+----------------------------------------------------------------------
+Ran 6 tests in 12.621s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+Search for the **OK** which means all tests have passed. You can find the numerous test over
+at each app's directory under tests.
 
 Common Docker commands
 ============================
@@ -120,8 +159,23 @@ Dockerfile  README.md  cmr_service  customers  db_init	docker-compose.yml  entry
 ```
 
 ## Start a container without a rebuild
-Assuming you are in the same path as 
+Assuming you are in the same path as the root repo.
 
 ```bash
 docker-compose up
+```
+
+## Force build of a container 
+Assuming you are in the same path as the root repo.
+
+```bash
+docker-compose build --no-cache
+```
+
+## Kill everything
+Something has gone awfully wrong and you need to do a mission abort, obliterating all
+containers and images. Proceed with caution.
+
+```bash
+docker system prune
 ```
