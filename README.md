@@ -65,6 +65,9 @@ You should remember the values you place for these since this is your admin user
 user that will be created in the DB once you run the project for the first time. It's your access to create new
 Users and set their status to admin. 
 
+Also, if you feel like playing with the code, it's best then to set the .env varible
+**APP_ENV** to "dev" (without double quotes).
+
 Run
 -----------------
 
@@ -179,3 +182,9 @@ containers and images. Proceed with caution.
 ```bash
 docker system prune
 ```
+
+Things to improve
+============================
+- More tests
+- Check photo size before saving, could easily load a big file and use up all disk space
+- OAuth2

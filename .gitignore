@@ -183,3 +183,4 @@ Vagrantfile
 .git_config
 /media/**
 !media/**/None
+/static
