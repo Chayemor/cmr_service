@@ -117,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/api/v1/docs/'
 LOGOUT_REDIRECT_URL = 'login'
 

@@ -24,7 +24,7 @@ schema_view = get_swagger_view(title='Customer Service API')
 urlpatterns = [
     re_path(r'accounts/login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
     re_path(r'accounts/logout/$', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
-    path('api-token-auth/$', obtain_jwt_token, name='create-token'),
+    path('api-token-auth', obtain_jwt_token, name='create-token'),
     re_path('api/v1/docs/$', schema_view),
     re_path('api/v1/', include('users.urls')),
     re_path('api/v1/', include('customers.urls')),
