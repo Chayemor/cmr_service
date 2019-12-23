@@ -1,5 +1,5 @@
 # Official Python runtime as a parent image
-FROM python:3.6
+FROM python:3.8
 
 # Set default value through ARG, then get the value from from command-line argument
 ARG APP_ENV=prod

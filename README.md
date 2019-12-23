@@ -39,7 +39,7 @@ have little problem starting it up in whatever environment you code in.
 
 ```bash
 cd yourProjectFolder
-git clone https://bitbucket.org/Chayemor/cmr_service.git
+git clone https://github.com/Chayemor/cmr_service.git
 ```
 
 With this step done you have successfully cloned the repo. Now before running with docker-compose it's 
@@ -76,7 +76,7 @@ Assuming you are in the repository folder, all that's left to do is build the do
  
 ```bash
 docker-compose build
-docker-compose run
+docker-compose up
 ```
 
 That's it. The API should now be available at **localhost:8000/api/v1/docs**
@@ -101,17 +101,17 @@ To run this command you must be at the same level as **manage.py**, which is the
 when you log into the container.
 
 ```bash
-python run test the_app_name.tests
+python manage.py test the_app_name.route.to.test.file
 ```
 
 ```bash
-python run test users.tests
+python manage.py test users.tests.tests
 ```
 
 You should look for the following output:
 
 ```bash
-root@115f46c7f03e:/django-docker# python manage.py test users.tests
+root@115f46c7f03e:/django-docker# python manage.py test users.tests.tests
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
 ......
