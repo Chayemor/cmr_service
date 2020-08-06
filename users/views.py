@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
-from rest_framework_jwt.settings import api_settings
 
-from .serializer import UserSerializer, TokenSerializer
+from .serializer import UserSerializer
 from .permissions import IsSuperUser
 
 

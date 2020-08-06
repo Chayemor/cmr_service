@@ -18,7 +18,6 @@ from django.contrib.staticfiles.urls import static
 from django.conf import settings
 from django.urls import path, include, re_path
 
-from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='Customer Service API')
@@ -26,7 +25,7 @@ schema_view = get_swagger_view(title='Customer Service API')
 urlpatterns = [
     re_path(r'accounts/login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
     re_path(r'accounts/logout/$', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
-    re_path('api-token-auth/?', obtain_jwt_token, name='create-token'),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     re_path('api/v1/docs/$', schema_view),
     re_path('api/v1/', include('users.urls')),
     re_path('api/v1/', include('customers.urls')),

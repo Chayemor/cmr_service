@@ -5,8 +5,9 @@ REST API to manage customer data for a small shop. It will work as the backend s
 
 API requirements:
 
-- The API should be only accessible by a registered user by providing an authentication mechanism.
-- A user can only:
+- The user API should be only accessible by a registered user by providing an authentication mechanism. 
+- The customer API should only be accessible by a user that holds a valid OAUTH2 token
+- A user with a valid OAUTH2 token can only:
   - List all customers in the database
   - Get full customer information, including a photo URL
   - Create a new customer
@@ -17,15 +18,13 @@ API requirements:
   - Update an existing customer
   - The customer should hold a reference to the last user who modified it
   - Delete an existing customer
-- An admin can also:
+- An admin can do all that users can, and also:
   - Manage users
   - Create users
   - Delete users
   - Update users
   - List users
   - Change admin status
-
-
 
 
 Usage
@@ -66,13 +65,14 @@ user that will be created in the DB once you run the project for the first time.
 Users and set their status to admin. 
 
 Also, if you feel like playing with the code, it's best then to set the .env variable
-**APP_ENV** to "dev" (without double quotes). By default, .env_template has that value set to dev, there
+**APP_ENV** to "dev" (without double quotes). By default, .env_template has that value set to dev, then
 if an error occurs, you will get more information about it. You can just as easily set it to prod. 
 
 Run
 -----------------
 
 Assuming you are in the repository folder, all that's left to do is build the docker container, then run it.
+Note: You must be running Python 3 when you do the docker commands.
  
 ```bash
 docker-compose build
@@ -81,15 +81,54 @@ docker-compose up
 
 That's it. The API should now be available at **localhost:8000/api/v1/docs**
 
-When you open the browser and go to that route you will see the public API available. Which is the endpoint to
-get your JWT token, for token based authentication. The documentation won't show any API endpoints that
-you don't have access to. You can play with the API through the documentation on the browser, but you have to first
-log in with what value is in your .env file for DJANGO_SU_NAME and DJANGO_SU_PASSWORD. You can see the login button
-at the top right navigation bar of the documentation. Once logged in, you will have access to the API and you will be
-able to create both Users and Customers because your DJANGO_SU_NAME user is an admin. 
-You can try creating a user without admin privileges, login out, and then log back in with
-the created user's credential. You'll see then that the documentation should only how the API endponts for
+When you open the browser and go to that route you will see the public API available thanks to the Swagger module. There's 
+a current bug in that module that doesn't let the users add the OAUTH2 token when making requests on the Customer api, 
+all requests through Swagger have been turned off. For more information: https://github.com/marcgibbons/django-rest-swagger/issues/759 
+
+You must be logged in to view the API, to do so click on the "login" button on the top right. Login with what value is in your .env file for DJANGO_SU_NAME and DJANGO_SU_PASSWORD
+This is session based authentication to gain access to the API. The OAUTH2 authentication is used to authorize operation on the Customer's API. Without the OAUTH2 token 
+Users won't be able to operate on Customers API.
+
+Once logged in, you will have access to the API and you will be able to create both Users and Customers because your DJANGO_SU_NAME user is an admin. 
+You can try creating a user without admin privileges, login out, and then log back in with the created user's credential. You'll see then that the documentation should only show the API endpoints for
 customer CRUD operations.
+
+Getting an OAUTH2 Token
+============================
+
+Getting the OAUTH2 APP
+-----------------------
+Go to the following url: `http://localhost:8000/o/applications/1/` , here you can create an application with the following:
+
+- Name: just a name of your choice
+- Client Type: confidential
+- Authorization Grant Type: Resource owner password-based
+
+Once saved, remember the **client_id** and **client_secret** , you will need it for the next step.
+
+Getting the OAUTH2 Token
+-----------------------
+To get the OAUTH2 Token you have to do a QUERY to the following endpoint:
+
+```bash
+curl -X POST -d "grant_type=password&username=<user_name>&password=<password_here>" -u"<client_id>:<client_secret>" http://localhost:8000/o/token/
+```
+
+You should see a response like this:
+
+```bash
+{
+ "access_token": "RX6EyFUBlQc2MVqKdVzb0GjiCjkWkU", 
+ "expires_in": 36000, 
+ "token_type": "Bearer", 
+ "scope": "read write groups", 
+ "refresh_token": "Ns5lZN4namyos2afIGJltx3wnLYgrq"
+ }
+```
+
+Now with that **access_token** you can carry out API requests by adding the header, such that:
+
+`curl -H "Authorization: Bearer RX6EyFUBlQc2MVqKdVzb0GjiCjkWkU" http://localhost:8000/api/v1/customers/`
 
 Running Tests
 ============================

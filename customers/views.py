@@ -1,8 +1,9 @@
-from rest_framework import status, viewsets
+from rest_framework import permissions, viewsets
 
 from .serializer import CustomerSerializer
 from .models import Customer
 
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, OAuth2Authentication
 
 class CustomersViewSet(viewsets.ModelViewSet):
     """
@@ -26,6 +27,8 @@ class CustomersViewSet(viewsets.ModelViewSet):
     """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    authentication_classes = [OAuth2Authentication]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, modified_by=self.request.user)
