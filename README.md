@@ -72,7 +72,7 @@ if an error occurs, you will get more information about it. You can just as easi
 Run
 -----------------
 
-Assuming you are in the repository folder, all that's left to do is build the docker container, then run it.
+Assuming you are in the repository folder, all that's left to do is build the docker container, then run it. Note: You must be running Python 3 when you do the docker commands.
  
 ```bash
 docker-compose build
@@ -186,6 +186,4 @@ docker system prune
 
 Things to improve
 ============================
-- More tests
 - Check photo size before saving, could easily load a big file and use up all disk space
-- OAuth2

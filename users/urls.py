@@ -3,7 +3,7 @@ from .views import UsersViewSet
 
 
 router = OptionalSlashRouter()
-router.register('users', UsersViewSet, base_name="users")
+router.register('users', UsersViewSet, basename="users")
 
 urlpatterns = []
 

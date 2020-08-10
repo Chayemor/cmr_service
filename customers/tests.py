@@ -1,8 +1,6 @@
 from django.urls import reverse
-#from django.contrib.auth import get_user_model
 import json
 
-#from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from PIL import Image
 import tempfile
