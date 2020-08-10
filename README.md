@@ -96,7 +96,7 @@ customer CRUD operations.
 Getting an OAUTH2 Token
 ============================
 
-Getting the OAUTH2 APP
+Getting the OAUTH2 application (client id and client secret)
 -----------------------
 Go to the following url: `http://localhost:8000/o/applications/1/` , here you can create an application with the following:
 

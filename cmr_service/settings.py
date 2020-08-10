@@ -167,7 +167,7 @@ REST_FRAMEWORK = {
 # it sends client_id and client_secret as query strings and not as
 # user separated with "::"
 # The "application" flow setting also that does work
-#
+# That's why in the docs none of the endpoints protected with OAuth2 are visible
 SWAGGER_SETTINGS = {
     'SUPPORTED_SUBMIT_METHODS': [],  # Due to bug described above
     'SECURITY_DEFINITIONS': {

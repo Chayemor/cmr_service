@@ -21,14 +21,14 @@ from django.urls import path, include, re_path
 from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='Customer Service API')
-
+#TODO remove re_path, there's no need for them
 urlpatterns = [
     re_path(r'accounts/login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
     re_path(r'accounts/logout/$', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     re_path('api/v1/docs/$', schema_view),
-    re_path('api/v1/', include('users.urls')),
-    re_path('api/v1/', include('customers.urls')),
+    path('api/v1/', include('users.urls')),
+    path('api/v1/', include('customers.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
